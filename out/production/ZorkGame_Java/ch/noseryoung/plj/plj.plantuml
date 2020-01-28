@@ -1,0 +1,126 @@
+@startuml
+
+
+    class ch.noseryoung.plj.Command {
+        - commandWord : String
+        - secondWord : String
+        + getCommandWord(): String
+        + getSecondWord() : String
+        + hasSecondWord(): boolean
+        + isUnknown(): boolean
+    }
+
+  
+
+
+    class ch.noseryoung.plj.CommandWords {
+        {static} + validCommands : String[]
+        + isCommandValid(String): boolean
+        + showAll(): void
+
+  }
+  
+
+
+    class ch.noseryoung.plj.Game {
+        - currentItems : ArrayList<Item>
+        - life : int
+        + addCurrentItems(): void
+        + attacks(BadCreature): void
+        + createRooms(): void
+        + gives(GoodCreature): void
+        + isItemAlreadyAdded(Item): boolean
+        + play(): void
+        + printHelp(): void
+        + printWelcomeMessage(): void
+        + processCommand(Command): boolean
+        + showCurrentItems(): void
+        - goToRoom(Command): void
+    }
+
+  
+
+
+    class ch.noseryoung.plj.Item {
+        - description : String
+        - name : String
+        + getDescription(): String
+        + getName(): String
+        + setDescription(String): Item
+        + setName(String): Item
+    }
+
+  
+
+
+    class ch.noseryoung.plj.Main {
+        {static} + main()
+    }
+
+  
+
+    class ch.noseryoung.plj.Parser {
+        + getCommand(): Command
+
+  }
+  
+
+
+    class ch.noseryoung.plj.Room {
+        - description : String
+        - exits : HashMap
+        - isLocked : boolean
+        - items : ArrayList<Item>
+        - welcomeMessage : String
+        + getCreature(); Creature
+        + getDescription(): String
+        + getExits(): HashMap
+        + getItems(): ArrayList
+        + getWelcomeMessage(): String
+        + isLocked(): boolean
+        + nextRoom(): Room
+        + setCreature(Creature): Room
+        + setDescription(String): Room
+        + setExits(Room, Room, Room, Room): void
+        + setExits(HashMap): Room
+        + setItem(Item): Room
+        + setItems(ArrayList): Room
+        + setLocked(): Room
+        + setWelcomeMessage(): Room
+    }
+
+
+
+    class ch.noseryoung.plj.creature.BadCreature {
+            + BadCreature()
+            + attack(): void
+            + getDefeatItem(): Item
+            + setDefeatItem(Item): BadCreature
+        }
+
+
+
+        class ch.noseryoung.plj.creature.Creature {
+            - description : String
+            - name : String
+            + getDescription(): String
+            + getName(): String
+            + setDescription(String): Creature
+            + setName(String): Creature
+    }
+
+
+        class ch.noseryoung.plj.creature.GoodCreature {
+            - givesLife : boolean
+            + isGivesLife(): boolean
+            + setGivesLife(boolean): GoodCreature
+    }
+  
+  ch.noseryoung.plj.creature.Creature <|-- ch.noseryoung.plj.creature.GoodCreature
+  ch.noseryoung.plj.creature.Creature <|-- ch.noseryoung.plj.creature.BadCreature
+  ch.noseryoung.plj.Game o-- ch.noseryoung.plj.Room
+  ch.noseryoung.plj.Game o-- ch.noseryoung.plj.Parser
+  ch.noseryoung.plj.Parser o-- ch.noseryoung.plj.CommandWords
+  ch.noseryoung.plj.Room o-- ch.noseryoung.plj.creature.Creature
+
+@enduml
